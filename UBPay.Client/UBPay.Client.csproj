@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
 	<RootNamespace>Tgs.Payment.UBPay.Client</RootNamespace>
 	<SqlQueryToolsConnectionString />
-	<Version>0.0.1</Version>
+	<Version>0.0.2</Version>
 	<Authors>Raypro</Authors>
 	<Company>Raypro</Company>
 	<PackageId>Tgs.Payment.UBPay.Client</PackageId>
