@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="PhoenixToolkits.MessageQueue.Nats" Version="1.0.6" />
+		<PackageReference Include="Tgs.MessageQueue.Compatible" Version="0.0.2" />
+		<PackageReference Include="Tgs.Payment.Client" Version="0.5.0" />
+		<PackageReference Include="Tgs.WebApi.Toolkits" Version="0.3.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\UBPay.Client\UBPay.Client.csproj" />
+	  <ProjectReference Include="..\UBPay.Core\UBPay.Core.csproj" />
+	</ItemGroup>
+
+</Project>

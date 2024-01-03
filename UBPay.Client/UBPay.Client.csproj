@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	<RootNamespace>Tgs.Payment.UBPay.Client</RootNamespace>
+	<SqlQueryToolsConnectionString />
+	<Version>0.0.1</Version>
+	<Authors>Raypro</Authors>
+	<Company>Raypro</Company>
+	<PackageId>Tgs.Payment.UBPay.Client</PackageId>
+	<Title>Tgs.Payment.UBPay.Client</Title>
+	<PackageProjectUrl>https://gitlab.com/rayprosoft/tgs-payment-ubpay</PackageProjectUrl>
+	<RepositoryUrl>https://gitlab.com/rayprosoft/tgs-payment-ubpay.git</RepositoryUrl>
+	<PackageTags>Tgs Payment UBPay</PackageTags>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.5.22">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+</Project>

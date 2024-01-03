@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tgs.Payment.UBPay", "Tgs.Payment.UBPay\Tgs.Payment.UBPay.csproj", "{C60D8A0A-1B68-43C0-9BF8-2B33818ACFF9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{89DAE29C-092C-4499-918D-7AE82A525337}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		CodeMaid.config = CodeMaid.config
+		nuget.config = nuget.config
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UBPay.Core", "UBPay.Core\UBPay.Core.csproj", "{76889B45-3ED0-4DE9-B956-BBE81D223EBF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UBPay.Client", "UBPay.Client\UBPay.Client.csproj", "{55015C59-D6C2-454D-9449-1764F10D16F7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UBPayTest", "UBPayTest\UBPayTest.csproj", "{C2A0A195-5169-4251-B524-D26EE9970234}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UBPay.Core.UnitTests", "UBPay.Core.UnitTests\UBPay.Core.UnitTests.csproj", "{70D67E62-7CAF-44AE-8648-8FE586901D74}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tgs.Payment.UBPay.IntegrationTests", "Tgs.Payment.UBPay.IntegrationTests\Tgs.Payment.UBPay.IntegrationTests.csproj", "{30131BA6-2825-422A-91B2-F93B2D19558E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C60D8A0A-1B68-43C0-9BF8-2B33818ACFF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C60D8A0A-1B68-43C0-9BF8-2B33818ACFF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C60D8A0A-1B68-43C0-9BF8-2B33818ACFF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C60D8A0A-1B68-43C0-9BF8-2B33818ACFF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76889B45-3ED0-4DE9-B956-BBE81D223EBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76889B45-3ED0-4DE9-B956-BBE81D223EBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76889B45-3ED0-4DE9-B956-BBE81D223EBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76889B45-3ED0-4DE9-B956-BBE81D223EBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55015C59-D6C2-454D-9449-1764F10D16F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55015C59-D6C2-454D-9449-1764F10D16F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55015C59-D6C2-454D-9449-1764F10D16F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55015C59-D6C2-454D-9449-1764F10D16F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2A0A195-5169-4251-B524-D26EE9970234}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2A0A195-5169-4251-B524-D26EE9970234}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2A0A195-5169-4251-B524-D26EE9970234}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2A0A195-5169-4251-B524-D26EE9970234}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70D67E62-7CAF-44AE-8648-8FE586901D74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70D67E62-7CAF-44AE-8648-8FE586901D74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70D67E62-7CAF-44AE-8648-8FE586901D74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70D67E62-7CAF-44AE-8648-8FE586901D74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30131BA6-2825-422A-91B2-F93B2D19558E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30131BA6-2825-422A-91B2-F93B2D19558E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30131BA6-2825-422A-91B2-F93B2D19558E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30131BA6-2825-422A-91B2-F93B2D19558E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DAC23229-1218-4A41-B7A3-DBD4EF69CADE}
+	EndGlobalSection
+EndGlobal
