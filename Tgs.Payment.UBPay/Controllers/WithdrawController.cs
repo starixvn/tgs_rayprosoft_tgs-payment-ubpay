@@ -30,6 +30,8 @@ public class WithdrawController : ControllerBase
         [FromServices] IPaymentClient paymentClient,
         [FromBody] CallbackWithdrawViewModel source)
     {
+        _logger.LogInformation("UBPay Withdraw Callback:{source}", source);
+
         var formId = Guid.Parse(source.OutTradeNo);
 
         var withdrawForm = await getService
@@ -112,9 +114,6 @@ public class WithdrawController : ControllerBase
                         HttpContext.RequestAborted).ConfigureAwait(false);
                 }
 
-                _logger.LogWarning("FormId:{formId}, ThirdPartyOrderNo:{ThirdPartyOrderNo}",
-                    formId,
-                    paymentReturn.ThirdPartyOrderNo);
                 break;
 
             default:

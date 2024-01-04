@@ -30,6 +30,8 @@ public class DepositController : ControllerBase
         [FromServices] IPaymentClient paymentClient,
         [FromBody] CallbackDepositViewModel source)
     {
+        _logger.LogInformation("UBPay Deposit Callback:{source}", source);
+
         var formId = Guid.Parse(source.OutTradeNo);
 
         var depositForm = await getService
@@ -86,14 +88,11 @@ public class DepositController : ControllerBase
                             UBPayUtility.SerializerOptions),
                         cancellationToken: HttpContext.RequestAborted).ConfigureAwait(false);
 
-                    _logger.LogInformation("UBPay Deposit Callback Submit Deposit Form Status(Deposit Form Id:{depositFormId}) Executed", depositForm.Id);
-
                     await paymentClient.ApproveDepositAsync(
                         depositForm.Id,
                         depositForm.BrandId,
                         paymentReturn.OrderAmount,
                         HttpContext.RequestAborted).ConfigureAwait(false);
-                    _logger.LogInformation("UBPay Deposit Callback Approve Deposit(Deposit Form Id:{depositFormId}) Executed", depositForm.Id);
                 }
 
                 break;
