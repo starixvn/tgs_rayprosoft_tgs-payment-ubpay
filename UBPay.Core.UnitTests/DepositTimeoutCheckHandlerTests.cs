@@ -41,7 +41,8 @@ public class DepositTimeoutCheckHandlerTests
                 "TMF23yDXxe9AkGVsXNUDhgXJALRBVcsz4s6WLT1Kkt2yA8Xj4hUDFrwHxqzZ",
                 "TcBD1d4QPKNUppj0ncLLEEQCHXc60M7kOEfVb0S2fHziesGGYV1fTTjqsu81",
                 formId,
-                null),
+                null,
+                ExchangeRate: 1m),
             new UBPayDepositResponse(
                 200000m,
                 formId,

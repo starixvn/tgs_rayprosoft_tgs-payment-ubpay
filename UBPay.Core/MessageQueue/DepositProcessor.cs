@@ -39,7 +39,7 @@ internal class DepositProcessor : IMessageProcessor
             cancellationToken).ConfigureAwait(false);
 
         var order = new DepositOrder(
-            decimal.Parse(request.Amount),
+            decimal.Parse(request.Amount) * settings.ExchangeRate,
             settings.FormId,
             new Uri($"{_options.CallbackBaseUrl}/deposit/callback"),
             createWalletResponse.FirmUniqueId,

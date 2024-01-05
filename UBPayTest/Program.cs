@@ -32,7 +32,7 @@ var notifyToken = "TcBD1d4QPKNUppj0ncLLEEQCHXc60M7kOEfVb0S2fHziesGGYV1fTTjqsu81"
 
 //代收USDT
 var formId = Guid.NewGuid();
-var depositSettings = new UBPayDepositSettings(apiToken, notifyToken, formId, null);
+var depositSettings = new UBPayDepositSettings(apiToken, notifyToken, formId, null, 1m);
 
 var depositReturn = await paymentClient.DepositAsync(
     "tgs.payment.ubpay.deposit",
@@ -47,7 +47,8 @@ logger.LogInformation("DepositReturn: {depositReturn}", depositReturn);
 //    apiToken,
 //    notifyToken,
 //    Guid.NewGuid(),
-//    "TQN6nn7vzWUaV7HpR8FoABiCPUAN6qaDGQ");
+//    "TQN6nn7vzWUaV7HpR8FoABiCPUAN6qaDGQ",
+//    1m);
 
 //var withdrawReturn = await paymentClient.WithdrawAsync(
 //    "tgs.payment.ubpay.withdraw",

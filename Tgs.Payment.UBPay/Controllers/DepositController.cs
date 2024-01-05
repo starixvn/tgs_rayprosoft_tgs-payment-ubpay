@@ -70,6 +70,7 @@ public class DepositController : ControllerBase
             OrderAmount = source.Amount,
             Sign = sign,
             BlockchainRate = source.BlockchainRate,
+            AfterExchangeRateOrderAmount = source.Amount / depositForm.ApplyInfo.Settings.ExchangeRate
         };
 
         var fsm = PaymentStateMachineFactory.CreateDepositStateMachine(depositForm.Status);
@@ -82,7 +83,7 @@ public class DepositController : ControllerBase
                     await fsm.FireAsync(PaymentTrigger.PaymentDepositCompleted).ConfigureAwait(false);
 
                     await paymentServiceClient.SubmitDepositFormStatusAsync(
-                    depositForm.Id,
+                        depositForm.Id,
                         paymentReturn: JsonSerializer.Serialize(
                             paymentReturn,
                             UBPayUtility.SerializerOptions),
@@ -91,7 +92,7 @@ public class DepositController : ControllerBase
                     await paymentClient.ApproveDepositAsync(
                         depositForm.Id,
                         depositForm.BrandId,
-                        paymentReturn.OrderAmount,
+                        paymentReturn.AfterExchangeRateOrderAmount,
                         HttpContext.RequestAborted).ConfigureAwait(false);
                 }
 

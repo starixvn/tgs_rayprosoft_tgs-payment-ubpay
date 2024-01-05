@@ -45,7 +45,8 @@ public class WithdrawTests
             apiToken,
             notifyToken,
             formId,
-            "TQN6nn7vzWUaV7HpR8FoABiCPUAN6qaDGQ");
+            "TQN6nn7vzWUaV7HpR8FoABiCPUAN6qaDGQ",
+            ExchangeRate: 1m);
         var withdrawResponse = new UBPayWithdrawResponse(formId);
 
         var applyInfo = new UBPayWithdrawApplyInfo(settings, withdrawResponse);
@@ -84,6 +85,7 @@ public class WithdrawTests
             Sign = "4afc59327f96a1799c46ff5339a9efc6",
             ThirdPartyOrderNo = "9c61fe85-19e7-4e53-922c-f3c96b9097f7",
             Status = "completed",
+            AfterExchangeRateAmount = 100m
         };
 
         Assert.Equal("ok", actual);
@@ -124,7 +126,8 @@ public class WithdrawTests
             apiToken,
             notifyToken,
             formId,
-            "TQN6nn7vzWUaV7HpR8FoABiCPUAN6qaDGQ");
+            "TQN6nn7vzWUaV7HpR8FoABiCPUAN6qaDGQ",
+            ExchangeRate: 1m);
         var withdrawResponse = new UBPayWithdrawResponse(formId);
 
         var applyInfo = new UBPayWithdrawApplyInfo(settings, withdrawResponse);
@@ -163,6 +166,7 @@ public class WithdrawTests
             Sign = "6fe27cf80a7b0e082fe28d72359a149a",
             ThirdPartyOrderNo = "78330832-b465-41c1-8e59-3ce2f6e79ae9",
             Status = "failed",
+            AfterExchangeRateAmount = 100m
         };
 
         Assert.Equal("ok", actual);
@@ -203,7 +207,8 @@ public class WithdrawTests
             apiToken,
             notifyToken,
             formId,
-            "TQN6nn7vzWUaV7HpR8FoABiCPUAN6qaDGQ");
+            "TQN6nn7vzWUaV7HpR8FoABiCPUAN6qaDGQ",
+            ExchangeRate: 1m);
         var withdrawResponse = new UBPayWithdrawResponse(formId);
 
         var applyInfo = new UBPayWithdrawApplyInfo(settings, withdrawResponse);
@@ -242,6 +247,7 @@ public class WithdrawTests
             Sign = "ac5731fd60adfe42df77efe29d7b606f",
             ThirdPartyOrderNo = "300adb28-9aea-4861-8240-70acdda414e7",
             Status = "refund",
+            AfterExchangeRateAmount = 100m
         };
 
         Assert.Equal("ok", actual);
