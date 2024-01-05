@@ -60,7 +60,8 @@ public class DepositTests
                 apiToken,
                 notifyToken,
                 formId,
-                null),
+                null,
+                ExchangeRate: 1m),
              new UBPayDepositResponse(
                 200000m,
                 formId,
@@ -92,6 +93,7 @@ public class DepositTests
             OrderAmount = 200000m,
             Sign = "b81d36f6e7baecb3b928d9d8099d86b7",
             BlockchainRate = "7.16",
+            AfterExchangeRateOrderAmount = 200000m
         };
 
         _ = fakePaymentServiceClient.Received(1)
