@@ -46,6 +46,7 @@ public class WithdrawTests
             notifyToken,
             formId,
             "TQN6nn7vzWUaV7HpR8FoABiCPUAN6qaDGQ",
+            Currency: null,
             ExchangeRate: 1m);
         var withdrawResponse = new UBPayWithdrawResponse(formId);
 
@@ -127,6 +128,7 @@ public class WithdrawTests
             notifyToken,
             formId,
             "TQN6nn7vzWUaV7HpR8FoABiCPUAN6qaDGQ",
+            Currency: null,
             ExchangeRate: 1m);
         var withdrawResponse = new UBPayWithdrawResponse(formId);
 
@@ -208,6 +210,7 @@ public class WithdrawTests
             notifyToken,
             formId,
             "TQN6nn7vzWUaV7HpR8FoABiCPUAN6qaDGQ",
+            Currency: null,
             ExchangeRate: 1m);
         var withdrawResponse = new UBPayWithdrawResponse(formId);
 
