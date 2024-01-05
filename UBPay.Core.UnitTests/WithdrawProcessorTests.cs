@@ -17,6 +17,7 @@ using System.Text.Json;
 using Google.Protobuf;
 
 namespace UBPay.Core.UnitTests;
+
 public class WithdrawProcessorTests
 {
     [Fact]
@@ -47,7 +48,7 @@ public class WithdrawProcessorTests
         new OptionsWrapper<UBPayOptions>(options));
 
         var formId = Guid.Parse("1c4e5fd7-460f-4d18-882c-c16046d693dc");
-        var apiToken = "TMF23yDXxe9AkGVsXNUDhgXJALRBVcsz4s6WLT1Kkt2yA8Xj4hUDFrwHxqzZ";        
+        var apiToken = "TMF23yDXxe9AkGVsXNUDhgXJALRBVcsz4s6WLT1Kkt2yA8Xj4hUDFrwHxqzZ";
         var notifyToken = "TcBD1d4QPKNUppj0ncLLEEQCHXc60M7kOEfVb0S2fHziesGGYV1fTTjqsu81";
 
         var applySettings = new UBPayWithdrawSettings(
@@ -55,7 +56,8 @@ public class WithdrawProcessorTests
             notifyToken,
             formId,
             "TQN6nn7vzWUaV7HpR8FoABiCPUAN6qaDGQ",
-            ExchangeRate : 1m);
+            Currency: null,
+            ExchangeRate: 1m);
 
         var request = new WithdrawRequest
         {
@@ -134,6 +136,7 @@ public class WithdrawProcessorTests
             notifyToken,
             formId,
             "TQN6nn7vzWUaV7HpR8FoABiCPUAN6qaDGQ",
+            Currency: "VND",
             ExchangeRate: 1000m);
 
         var request = new WithdrawRequest

@@ -92,7 +92,8 @@ public class UBPayClientTests
             formId,
             500m,
             new Uri("https://dev-payment.rpgp.cc/ubpay/withdraw/callback"),
-            "TQN6nn7vzWUaV7HpR8FoABiCPUAN6qaDGQ");
+            "TQN6nn7vzWUaV7HpR8FoABiCPUAN6qaDGQ",
+            Currency: null);
 
         var actual = await sut.WithdrawAsync(apiToken, notifyToken, order);
 

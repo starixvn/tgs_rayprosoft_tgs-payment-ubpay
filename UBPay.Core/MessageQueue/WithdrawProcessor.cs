@@ -33,7 +33,8 @@ internal class WithdrawProcessor : IMessageProcessor
             settings.FormId,
             decimal.Parse(request.Amount) * settings.ExchangeRate,
             new Uri($"{_options.CallbackBaseUrl}/withdraw/callback"),
-            settings.Address);
+            settings.Address,
+            settings.Currency);
 
         var withdrawResponse = await _uBPayClient.WithdrawAsync(
             settings.ApiToken,

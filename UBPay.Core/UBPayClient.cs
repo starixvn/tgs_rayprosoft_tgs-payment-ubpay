@@ -101,6 +101,9 @@ public class UBPayClient
             ["address"] = order.Address,
         };
 
+        if (order.Currency is not null)
+            dict.Add("currency", order.Currency);
+
         dict["sign"] = _hasher.ComputeHash(apiToken, notifyToken, dict);
 
         var response = await _httpClient
