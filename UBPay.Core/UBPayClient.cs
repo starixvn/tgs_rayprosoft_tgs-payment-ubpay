@@ -1,8 +1,11 @@
 ﻿using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Net.Mime;
+using System.Runtime.CompilerServices;
 using System.Text.Json.Nodes;
+using System.Web;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic;
 
 namespace Tgs.Payment.UBPay;
 
@@ -154,15 +157,15 @@ public class UBPayClient
         return decimal.Parse(data["balance"]!.GetValue<string>());
     }
 
-    public async ValueTask<UBPayClientCreateWalletResponse> CreatePlayerWalletAsync(string apiToken, Guid FormId, Uri CallbackUrl, CancellationToken cancellationToken = default)
+    public async ValueTask<UBPayClientCreateWalletResponse> CreatePlayerWalletAsync(string apiToken, Guid formId, Uri callbackUrl, CancellationToken cancellationToken = default)
     {
         _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
 
         var dict = new Dictionary<string, string?>
         {
-            ["firm_unique_id"] = FormId.ToString(),
-            ["callback_url"] = CallbackUrl.AbsoluteUri,
+            ["firm_unique_id"] = formId.ToString(),
+            ["callback_url"] = callbackUrl.AbsoluteUri,
         };
 
         var response = await _httpClient
@@ -185,5 +188,43 @@ public class UBPayClient
         return new UBPayClientCreateWalletResponse(
             FirmUniqueId: data["firm_unique_id"]!.GetValue<string>(),
             WalletAddress: data["wallet_address"]!.GetValue<string>());
+    }
+
+    public async IAsyncEnumerable<UBPayClientRateV1Response> QueryBlockChainRateV1Async(string apiToken, string currency, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiToken);
+
+        var queryStrings = HttpUtility.ParseQueryString(string.Empty);
+
+        queryStrings.Add("fiat", currency);
+
+        var response = await _httpClient
+            .GetAsync($"/api/blockchain/rate?{queryStrings}", cancellationToken)
+            .ConfigureAwait(false);
+
+        _ = response.EnsureSuccessStatusCode();
+
+        var body = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
+
+        _logger.LogInformation("UBPayClient Query Block Chain Rate Body:{body}", body);
+
+        var node = JsonNode.Parse(body) ?? throw new ApiFailException("Query Block Chain Rate response can't read.");
+
+        if (node["success"]!.GetValue<bool>() != true)
+            throw new ApiFailException("Query Block Chain Rate failed");
+
+        var data = node["data"]!.AsArray();
+
+        if (data.Count == 0)
+            yield break;
+
+        foreach (var item in data)
+        {
+            yield return new UBPayClientRateV1Response(
+                Symbol: item!["symbol"]!.GetValue<string>(),
+                Platform: item!["platform"]!.GetValue<string>(),
+                Rate: decimal.Parse(item!["rate"]!.GetValue<string>()));
+        }
     }
 }

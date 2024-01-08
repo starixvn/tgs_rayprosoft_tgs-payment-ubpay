@@ -65,8 +65,12 @@ builder.Services
             "tgs.payment.ubpay.withdraw")
         .AddHandler(
             ProcessorTypes.DepositTimeoutCheckHandlerType,
-            $"tgs.payment.ubpay.deposit.schedule.reject",
-            $"tgs.payment.ubpay.deposit.schedule.reject"))
+            "tgs.payment.ubpay.deposit.schedule.reject",
+            "tgs.payment.ubpay.deposit.schedule.reject")
+        .AddProcessor(
+            ProcessorTypes.QueryExchangeRateProcessorType,
+            "tgs.payment.ubpay.queryexchangerate",
+            "tgs.payment.ubpay.queryexchangerate"))
     .AddNatsGlobPatternExchange("*");
 
 builder.Services

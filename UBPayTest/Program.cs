@@ -31,15 +31,15 @@ var notifyToken = "TcBD1d4QPKNUppj0ncLLEEQCHXc60M7kOEfVb0S2fHziesGGYV1fTTjqsu81"
 //wallet_address: TQN6nn7vzWUaV7HpR8FoABiCPUAN6qaDGQ
 
 //代收USDT
-var formId = Guid.NewGuid();
-var depositSettings = new UBPayDepositSettings(apiToken, notifyToken, formId, null, 1m);
+//var formId = Guid.NewGuid();
+//var depositSettings = new UBPayDepositSettings(apiToken, notifyToken, formId, null, 1m);
 
-var depositReturn = await paymentClient.DepositAsync(
-    "tgs.payment.ubpay.deposit",
-    200000M,
-    JsonSerializer.Serialize(depositSettings, UBPayUtility.SerializerOptions)).ConfigureAwait(false);
+//var depositReturn = await paymentClient.DepositAsync(
+//    "tgs.payment.ubpay.deposit",
+//    200000M,
+//    JsonSerializer.Serialize(depositSettings, UBPayUtility.SerializerOptions)).ConfigureAwait(false);
 
-logger.LogInformation("DepositReturn: {depositReturn}", depositReturn);
+//logger.LogInformation("DepositReturn: {depositReturn}", depositReturn);
 
 //==========================================================================
 //代付
@@ -80,3 +80,13 @@ logger.LogInformation("DepositReturn: {depositReturn}", depositReturn);
 //    .QueryDepositFormStatusAsync(apiToken, Guid.Parse("5cb4ab68-e705-49ac-84b8-d7ff9abc8a30"))
 //    .ConfigureAwait(false);
 //logger.LogInformation("{state}", depositResponse.State);
+
+//==========================================================================
+//交易所匯率查詢
+var exchangeRateSettings = new UBPayQueryExchangeRateSettings(apiToken, "VND", ExchangeRate: 1000m);
+
+var exchangeRateReturn = await paymentClient.AskAsync(
+    "tgs.payment.ubpay.queryexchangerate",
+    JsonSerializer.Serialize(exchangeRateSettings, UBPayUtility.SerializerOptions));
+
+logger.LogInformation("{exchangeRateReturn}", exchangeRateReturn);
