@@ -249,4 +249,43 @@ public class UBPayClientTests
         Assert.Equal("5c224598-32d5-4db7-8a21-0f06862925bc", actual.FirmUniqueId);
         Assert.Equal("TDjorjHSFb32iS59VYV1kw47Vtv87rb16g", actual.WalletAddress);
     }
+
+    [Fact]
+    public async Task 交易所費率查詢v1()
+    {
+        var mockHttp = new MockHttpMessageHandler();
+
+        var httpClient = mockHttp.ToHttpClient();
+        httpClient.BaseAddress = new Uri("https://ubtxn.com");
+
+        var signer = new UBPayHasher(NullLogger<UBPayHasher>.Instance);
+
+        var sut = new UBPayClient(httpClient, signer, NullLogger<UBPayClient>.Instance);
+
+        var apiToken = "TMF23yDXxe9AkGVsXNUDhgXJALRBVcsz4s6WLT1Kkt2yA8Xj4hUDFrwHxqzZ";      
+
+        _ = mockHttp
+            .Expect(HttpMethod.Get, "https://ubtxn.com/api/blockchain/rate?fiat=VND")
+            .WithHeaders(new Dictionary<string, string>
+            {
+                { "Accept", "application/json" },
+                { "Authorization", $"Bearer {apiToken}" }
+            })
+            .Respond(HttpStatusCode.OK, new StringContent("""
+                {
+                    "data": [
+                        {
+                            "symbol": "usdt",
+                            "platform": "binance",
+                            "rate": "24880.00"
+                        }
+                    ],
+                    "success": true
+                }
+                """));
+
+        var actual = await sut.QueryBlockChainRateV1Async(apiToken, "VND").ToArrayAsync();
+
+        Assert.Equal(24880.00m, actual[0].Rate);
+    }
 }
