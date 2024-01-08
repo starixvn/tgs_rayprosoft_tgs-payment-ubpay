@@ -13,6 +13,4 @@ public record UBPayDepositReturn
     public string Sign { get; set; } = default!;
 
     public string BlockchainRate { get; set; } = default!;
-
-    public decimal AfterExchangeRateOrderAmount { get; set; }
 }

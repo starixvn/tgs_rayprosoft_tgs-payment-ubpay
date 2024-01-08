@@ -69,8 +69,7 @@ public class DepositController : ControllerBase
             ThirdPartyOrderNo = source.TradeNo,
             OrderAmount = source.Amount,
             Sign = sign,
-            BlockchainRate = source.BlockchainRate,
-            AfterExchangeRateOrderAmount = source.Amount / depositForm.ApplyInfo.Settings.ExchangeRate
+            BlockchainRate = source.BlockchainRate
         };
 
         var fsm = PaymentStateMachineFactory.CreateDepositStateMachine(depositForm.Status);
@@ -92,7 +91,7 @@ public class DepositController : ControllerBase
                     await paymentClient.ApproveDepositAsync(
                         depositForm.Id,
                         depositForm.BrandId,
-                        paymentReturn.AfterExchangeRateOrderAmount,
+                        depositForm.Amount,
                         HttpContext.RequestAborted).ConfigureAwait(false);
                 }
 

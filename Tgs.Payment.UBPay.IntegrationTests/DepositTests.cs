@@ -92,8 +92,7 @@ public class DepositTests
             ThirdPartyOrderNo = "84e857ca-4d67-495f-a59b-d76a42c87d7a",
             OrderAmount = 200000m,
             Sign = "b81d36f6e7baecb3b928d9d8099d86b7",
-            BlockchainRate = "7.16",
-            AfterExchangeRateOrderAmount = 200000m
+            BlockchainRate = "7.16"            
         };
 
         _ = fakePaymentServiceClient.Received(1)
@@ -106,7 +105,7 @@ public class DepositTests
             .ApproveDepositAsync(
                 Arg.Is(formId),
                 Arg.Is(brandId),
-                Arg.Is(paymentReturn.OrderAmount),
+                Arg.Is(200000m),
                 Arg.Any<CancellationToken>());
     }
 }
