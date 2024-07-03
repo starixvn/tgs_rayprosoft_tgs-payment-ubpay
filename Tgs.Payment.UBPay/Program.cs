@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.Extensions.Options;
+using NATS.Client.Core;
 using OpenTelemetry.Instrumentation.AspNetCore;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using Tgs.MessageQueue.Nats.Serializers;
 using Tgs.Payment.UBPay;
 using Tgs.Payment.UBPay.MessageQueue;
 
@@ -47,14 +49,18 @@ builder.Services
         }));
 
 builder.Services
-    .AddPhoenixToolkitsMessageQueue()
-    .AddNatsMessageQueue(config => config
-        .ConfigQueueOptions((options, sp) =>
+    .AddKeyedSingleton(
+        "Nats",
+        (sp, _) => new NatsConnection(NatsOpts.Default with
         {
-            var config = sp.GetRequiredService<IConfiguration>();
-
-            options.Url = config.GetConnectionString("Nats")!;
-        })
+            Url = builder.Configuration.GetConnectionString("Nats")!,
+            SerializerRegistry = TgsNatsSerializerRegistration.Default
+        }))
+    .AddMessageQueue()
+    .AddNatsMessageQueue(natsConfig =>
+    {
+        _ = natsConfig
+            .ConfigureResolveConnection(sp => sp.GetRequiredKeyedService<NatsConnection>("Nats"))
         .AddProcessor(
             ProcessorTypes.DepositProcessorType,
             "tgs.payment.ubpay.deposit",
@@ -70,7 +76,12 @@ builder.Services
         .AddProcessor(
             ProcessorTypes.QueryExchangeRateProcessorType,
             "tgs.payment.ubpay.queryexchangerate",
-            "tgs.payment.ubpay.queryexchangerate"))
+            "tgs.payment.ubpay.queryexchangerate")
+        .AddProcessor(
+            ProcessorTypes.GetBalanceProcessorType,
+            "tgs.payment.ubpay.balance",
+            "tgs.payment.ubpay.balance");
+    })
     .AddNatsGlobPatternExchange("*");
 
 builder.Services

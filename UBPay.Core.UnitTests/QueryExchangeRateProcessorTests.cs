@@ -58,9 +58,9 @@ public class QueryExchangeRateProcessorTests
                 }
                 """));
         // Act
-        var actual = await sut.HandleAsync(request.ToByteArray());
-        var response = GeneralResponse.Parser.ParseFrom(actual.Span);
-        var applyInfo = JsonSerializer.Deserialize<UBPayQueryExchangeRateApplyInfo>(response.Result, UBPayUtility.SerializerOptions);
+        var actual = await sut.HandleAsync("test", request, null);
+        
+        var applyInfo = JsonSerializer.Deserialize<UBPayQueryExchangeRateApplyInfo>(actual.Result, UBPayUtility.SerializerOptions);
 
         // Assert
         Assert.NotNull(applyInfo);

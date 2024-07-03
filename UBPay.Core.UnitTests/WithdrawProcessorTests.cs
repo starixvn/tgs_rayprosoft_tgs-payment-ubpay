@@ -87,9 +87,9 @@ public class WithdrawProcessorTests
                 """));
 
         // Act
-        var actual = await sut.HandleAsync(request.ToByteArray());
-        var response = WithdrawResponse.Parser.ParseFrom(actual.Span);
-        var applyInfo = JsonSerializer.Deserialize<UBPayWithdrawApplyInfo>(response.Result, UBPayUtility.SerializerOptions);
+        var actual = await sut.HandleAsync("test", request, null);
+
+        var applyInfo = JsonSerializer.Deserialize<UBPayWithdrawApplyInfo>(actual.Result, UBPayUtility.SerializerOptions);
 
         // Assert
         _ = fakePaymentClient.Received(1)
@@ -167,9 +167,9 @@ public class WithdrawProcessorTests
                 """));
 
         // Act
-        var actual = await sut.HandleAsync(request.ToByteArray());
-        var response = WithdrawResponse.Parser.ParseFrom(actual.Span);
-        var applyInfo = JsonSerializer.Deserialize<UBPayWithdrawApplyInfo>(response.Result, UBPayUtility.SerializerOptions);
+        var actual = await sut.HandleAsync("test", request, null);
+
+        var applyInfo = JsonSerializer.Deserialize<UBPayWithdrawApplyInfo>(actual.Result, UBPayUtility.SerializerOptions);
 
         // Assert
         _ = fakePaymentClient.Received(1)
