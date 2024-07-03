@@ -9,6 +9,7 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+COPY ["nuget.config", "."]
 COPY ["Tgs.Payment.UBPay/Tgs.Payment.UBPay.csproj", "Tgs.Payment.UBPay/"]
 COPY ["UBPay.Core/UBPay.Core.csproj", "UBPay.Core/"]
 COPY ["UBPay.Client/UBPay.Client.csproj", "UBPay.Client/"]
