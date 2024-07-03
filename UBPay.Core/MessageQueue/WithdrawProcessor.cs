@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using Google.Protobuf;
 using Microsoft.Extensions.Options;
 using Tgs.Payment.Clients;
 using Tgs.Payment.Protos;
@@ -8,35 +7,30 @@ using Valhalla.MessageQueue;
 
 namespace Tgs.Payment.UBPay.MessageQueue;
 
-internal class WithdrawProcessor : IMessageProcessor
+internal class WithdrawProcessor(
+    UBPayClient uBPayClient,
+    IPaymentClient paymentClient,
+    IOptions<UBPayOptions> optionsAccessor)
+    : IMessageProcessor<WithdrawRequest, WithdrawResponse>
 {
-    private readonly UBPayClient _uBPayClient;
-    private readonly IPaymentClient _paymentClient;
-    private readonly UBPayOptions _options;
+    private readonly UBPayOptions _options = optionsAccessor.Value;
 
-    public WithdrawProcessor(
-        UBPayClient uBPayClient,
-        IPaymentClient paymentClient,
-        IOptions<UBPayOptions> optionsAccessor)
+    public async ValueTask<WithdrawResponse> HandleAsync(
+        string subject,
+        WithdrawRequest data,
+        IEnumerable<MessageHeaderValue>? headerValues,
+        CancellationToken cancellationToken = default)
     {
-        _uBPayClient = uBPayClient ?? throw new ArgumentNullException(nameof(uBPayClient));
-        _paymentClient = paymentClient ?? throw new ArgumentNullException(nameof(paymentClient));
-        _options = optionsAccessor.Value;
-    }
-
-    public async ValueTask<ReadOnlyMemory<byte>> HandleAsync(ReadOnlyMemory<byte> data, CancellationToken cancellationToken = default)
-    {
-        var request = WithdrawRequest.Parser.ParseFrom(data.Span);
-        var settings = JsonSerializer.Deserialize<UBPayWithdrawSettings>(request.ApplyInfo, UBPayUtility.SerializerOptions)!;
+        var settings = JsonSerializer.Deserialize<UBPayWithdrawSettings>(data.ApplyInfo, UBPayUtility.SerializerOptions)!;
 
         var order = new WithdrawOrder(
             settings.FormId,
-            decimal.Parse(request.Amount) * settings.ExchangeRate,
+            decimal.Parse(data.Amount) * settings.ExchangeRate,
             new Uri($"{_options.CallbackBaseUrl}/withdraw/callback"),
             settings.Address,
             settings.Currency);
 
-        var withdrawResponse = await _uBPayClient.WithdrawAsync(
+        var withdrawResponse = await uBPayClient.WithdrawAsync(
             settings.ApiToken,
             settings.NotifyToken,
             order,
@@ -45,16 +39,14 @@ internal class WithdrawProcessor : IMessageProcessor
             settings,
             new UBPayWithdrawResponse(withdrawResponse.FormId));
 
-        await _paymentClient.SaveWithdrawFormThirdPartyOrderNoAsync(
+        await paymentClient.SaveWithdrawFormThirdPartyOrderNoAsync(
             settings.FormId,
             withdrawResponse.ThirdPartyOrderNo,
             cancellationToken);
 
-        var msg = new WithdrawResponse
+        return new WithdrawResponse
         {
             Result = JsonSerializer.Serialize(applyInfo, UBPayUtility.SerializerOptions)
         };
-
-        return msg.ToByteArray();
     }
 }

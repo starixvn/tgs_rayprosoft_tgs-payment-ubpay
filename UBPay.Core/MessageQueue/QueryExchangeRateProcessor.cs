@@ -1,30 +1,25 @@
 ﻿using System.Text.Json;
-using Google.Protobuf;
 using Tgs.Payment.Protos;
 using Tgs.Payment.UBPay.Client;
 using Valhalla.MessageQueue;
 
 namespace Tgs.Payment.UBPay.MessageQueue;
 
-internal class QueryExchangeRateProcessor : IMessageProcessor
+internal class QueryExchangeRateProcessor(
+    UBPayClient uBPayClient)
+    : IMessageProcessor<GeneralRequest, GeneralResponse>
 {
-    private readonly UBPayClient _uBPayClient;
-
-    public QueryExchangeRateProcessor(
-        UBPayClient uBPayClient)
+    public async ValueTask<GeneralResponse> HandleAsync(
+        string subject,
+        GeneralRequest data,
+        IEnumerable<MessageHeaderValue>? headerValues,
+        CancellationToken cancellationToken = default)
     {
-        _uBPayClient = uBPayClient ?? throw new ArgumentNullException(nameof(uBPayClient));
-    }
-
-    public async ValueTask<ReadOnlyMemory<byte>> HandleAsync(ReadOnlyMemory<byte> data, CancellationToken cancellationToken = default)
-    {
-        var request = GeneralRequest.Parser.ParseFrom(data.Span);
-
         var settings = JsonSerializer.Deserialize<UBPayQueryExchangeRateSettings>(
-            request.Content,
+            data.Content,
             UBPayUtility.SerializerOptions)!;
 
-        var rateResponse = await _uBPayClient
+        var rateResponse = await uBPayClient
             .QueryBlockChainRateV1Async(settings.ApiToken, settings.Currency, cancellationToken)
             .ToArrayAsync(cancellationToken)
             .ConfigureAwait(false);
@@ -37,12 +32,10 @@ internal class QueryExchangeRateProcessor : IMessageProcessor
 
             var applyInfo = new UBPayQueryExchangeRateApplyInfo(settings, response);
 
-            var msg = new GeneralResponse
+            return new GeneralResponse
             {
                 Result = JsonSerializer.Serialize(applyInfo, UBPayUtility.SerializerOptions)
             };
-
-            return msg.ToByteArray();
         }
         else
         {
@@ -55,12 +48,10 @@ internal class QueryExchangeRateProcessor : IMessageProcessor
 
             var applyInfo = new UBPayQueryExchangeRateApplyInfo(settings, response);
 
-            var msg = new GeneralResponse
+            return new GeneralResponse
             {
                 Result = JsonSerializer.Serialize(applyInfo, UBPayUtility.SerializerOptions)
             };
-
-            return msg.ToByteArray();
         }
     }
 }
